@@ -2,8 +2,6 @@ package ventanas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,14 +11,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import cliente.Cliente;
+
 public class Sala extends JPanel {
 	private JTextField textField;
-
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
 	private JTabbedPane tabbedPane;
+	Cliente cliente;
 
-	public Sala(String name, JTabbedPane tabbedPane) {
+	public Sala(String name, JTabbedPane tabbedPane, Cliente cliente) {
+		this.cliente = cliente;
 		this.tabbedPane = tabbedPane;
 		setName(name);
 		SpringLayout springLayout = new SpringLayout();
@@ -64,15 +63,26 @@ public class Sala extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, lblNombre, -10, SpringLayout.WEST, btnSalir);
 		add(lblNombre);
 
+		textField.putClientProperty("cliente", cliente);
+		textField.putClientProperty("sala", this);
 		textField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.append(
-						LocalTime.now().format(formatter) + " Diego: " + textField.getText() + System.lineSeparator());
-				textField.setText("");
+				Sala sala = (Sala) textField.getClientProperty("sala");
+				Cliente cliente = (Cliente) textField.getClientProperty("cliente");
 
+				cliente.escribir(sala.getName(), textField.getText());
+				textField.setText("");
 			}
 		});
+
+		cliente.getRecibe().addSala(name, textArea);
+	}
+
+	@Override
+	public void removeNotify() {
+		super.removeNotify();
+		cliente.getRecibe().removeSala(getName());
 
 	}
 }
