@@ -35,6 +35,7 @@ public class Lobby extends JPanel {
 					JTabbedPane tabbedPane = (JTabbedPane) btnNuevaSala.getClientProperty("tabbedPane");
 					tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
 					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+					cliente.enviarNuevaSala(nombreSala);
 				}
 			}
 		});
@@ -55,5 +56,7 @@ public class Lobby extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, txaListaSalas, -30, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, txaListaSalas, 0, SpringLayout.EAST, lblSalasAbiertas);
 		add(txaListaSalas);
+
+		cliente.getRecibe().setLobbyTextArea(txaListaSalas); // temporal
 	}
 }

@@ -8,8 +8,10 @@ public class ClienteRecibe extends Thread {
 	// En esta clase se hace todo el processing de los mensajes que llegan del
 	// server
 	Cliente client;
-	ArrayList<String> salas = new ArrayList<>();
+	JTextArea lobbyTextArea;
+	ArrayList<String> salasConectado = new ArrayList<>();
 	ArrayList<JTextArea> textareas = new ArrayList<>();
+	ArrayList<String> listaSalas = new ArrayList<>();
 
 	public ClienteRecibe(Cliente client) {
 		super();
@@ -18,13 +20,13 @@ public class ClienteRecibe extends Thread {
 
 	@Override
 	public void run() {
-		try {
-			while (true) {
-				byte tipo = client.getDataInputStream().readByte();
+		String texto;
 
-				switch (tipo) {
+		while (true) {
+			try {
+				switch (client.getDataInputStream().readByte()) {
 				case 0:
-					String texto = client.getDataInputStream().readUTF();
+					texto = client.getDataInputStream().readUTF();
 
 					// modificar todo esto segun que manda el server
 					String[] splittedText = texto.split(";", 4);
@@ -33,32 +35,42 @@ public class ClienteRecibe extends Thread {
 					String user = splittedText[2];
 					String mensaje = splittedText[3];
 
-					for (int i = 0; i < salas.size(); i++) {
-						if (nombreSala.equals(salas.get(i))) {
+					for (int i = 0; i < salasConectado.size(); i++) {
+						if (nombreSala.equals(salasConectado.get(i))) {
 							textareas.get(i).append(hora + " " + user + ": " + mensaje);
 							textareas.get(i).append(System.lineSeparator());
 						}
 					}
 					break;
 				case 1:
-					System.out.println("case 1");
+					texto = client.getDataInputStream().readUTF();
+					listaSalas.clear();
+					lobbyTextArea.setText("");
+					for (String i : texto.split(";")) {
+						lobbyTextArea.append(i + System.lineSeparator());
+						listaSalas.add(i);
+					}
 				}
 
+			} catch (Exception e) {
+				// ignore
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
 	public void addSala(String salaName, JTextArea salaTextArea) {
-		salas.add(salaName);
+		salasConectado.add(salaName);
 		textareas.add(salaTextArea);
 	}
 
 	public void removeSala(String salaName) {
-		int index = salas.indexOf(salaName);
-		salas.remove(index);
+		int index = salasConectado.indexOf(salaName);
+		salasConectado.remove(index);
 		textareas.remove(index);
+	}
+
+	public void setLobbyTextArea(JTextArea lobbyTextArea) {
+		this.lobbyTextArea = lobbyTextArea;
 	}
 
 }

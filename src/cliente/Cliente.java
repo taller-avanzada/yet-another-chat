@@ -26,6 +26,7 @@ public class Cliente {
 
 	public void escribir(String sala, String mensaje) {
 		try {
+			out.write(0);
 			out.writeUTF(sala + ";" + name + ";" + mensaje);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -51,5 +52,15 @@ public class Cliente {
 
 	public ClienteRecibe getRecibe() {
 		return recibe;
+	}
+
+	public void enviarNuevaSala(String nombreSala) {
+		try {
+			out.write(1);
+			out.writeUTF(nombreSala);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 }

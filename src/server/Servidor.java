@@ -6,26 +6,24 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Servidor {
-	private ArrayList<Socket> socketsclientes;
-	// MandadorDeSalas mandadorDeSalas = new MandadorDeSalas();
+	private ArrayList<Socket> socketsClientes = new ArrayList<>();
+	private ArrayList<String> listaSalas = new ArrayList<>();
+	MandadorDeSalas mandadorDeSalas = new MandadorDeSalas(socketsClientes, listaSalas);
 
 	public Servidor(int puerto) throws IOException {
-		int i = 0;
-		socketsclientes = new ArrayList<Socket>();
 		ServerSocket servidor = new ServerSocket(puerto);
-		// mandadorDeSalas.start();
+		mandadorDeSalas.start();
 
+		Boolean running = true;
 		System.out.println("Servidor en linea . . . . ");
-
-		while (i < 100) {
+		while (running) {
 			Socket cliente = servidor.accept();
 			System.out.println("Acepto cliente nuevo");
-			socketsclientes.add(cliente);
-			new ServidorHilo(cliente, socketsclientes).start();
-			i++;
+			socketsClientes.add(cliente);
+			new ServidorHilo(cliente, socketsClientes, listaSalas).start();
 		}
-		servidor.close();
-		System.out.println("El servidor se ha cerrado!");
+		servidor.close(); // por ahora solo lo cerramos cuando se mata el proceso, esto esta pa q eclipse
+							// no moleste
 
 	}
 
@@ -34,9 +32,9 @@ public class Servidor {
 		try {
 			new Servidor(10000);
 		} catch (Exception e) {
+
 			System.err.println("Se cerro la conexion");
 		}
-
 	}
 
 }
