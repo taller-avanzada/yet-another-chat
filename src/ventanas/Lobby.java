@@ -78,14 +78,28 @@ public class Lobby extends JPanel {
 
 				String nombreSala = JOptionPane.showInputDialog(btnUnirseSala.getParent(), "Nombre de la sala: ");
 				if (nombreSala != null && !nombreSala.isBlank() && cliente.getRecibe().existeSala(nombreSala)) {
-					JTabbedPane tabbedPane = (JTabbedPane) btnUnirseSala.getClientProperty("tabbedPane");
-					tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
-					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-					cliente.conectarseASala(nombreSala);
+					if (!estoyUnido(nombreSala))
+					{
+						JTabbedPane tabbedPane = (JTabbedPane) btnUnirseSala.getClientProperty("tabbedPane");
+						tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
+						tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+						cliente.conectarseASala(nombreSala);
+					}
+					
 				} else {
 					JOptionPane.showMessageDialog(tabbedPane, "Esa sala no existe", "Lobby Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+			}
+
+			private boolean estoyUnido(String nombreSala)
+			{
+				for(int i = 0; i < tabbedPane.getTabCount(); i++)
+				{
+					if (tabbedPane.getTitleAt(i).equals(nombreSala))
+						return true;
+				}
+				return false;
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnUnirseSala, 10, SpringLayout.NORTH, this);
