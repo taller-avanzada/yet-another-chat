@@ -42,7 +42,7 @@ public class MainApp {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		Cliente cliente = new Cliente(10000, "localhost");
+		Cliente cliente = new Cliente(20000, "localhost");
 		ClienteRecibe clienteRecibe = new ClienteRecibe(cliente);
 		cliente.setName("Benito Cala");
 		clienteRecibe.start();

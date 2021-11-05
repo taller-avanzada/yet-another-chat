@@ -45,6 +45,7 @@ public class Lobby extends JPanel {
 				}
 			}
 		});
+
 		springLayout.putConstraint(SpringLayout.NORTH, btnNuevaSala, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, btnNuevaSala, -10, SpringLayout.EAST, this);
 

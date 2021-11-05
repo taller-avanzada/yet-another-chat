@@ -30,7 +30,7 @@ public class Servidor {
 	public static void main(String[] args) {
 
 		try {
-			new Servidor(10000);
+			new Servidor(20000);
 		} catch (Exception e) {
 
 			System.err.println("Se cerro la conexion");

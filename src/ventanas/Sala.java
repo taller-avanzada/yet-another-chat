@@ -6,10 +6,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.text.DefaultCaret;
 
 import cliente.Cliente;
 
@@ -34,22 +36,26 @@ public class Sala extends JPanel {
 		textField.setColumns(10);
 
 		JTextArea textArea = new JTextArea();
+		JScrollPane textAreaScrollPane = new JScrollPane(textArea);
+		DefaultCaret textAreaCaret = (DefaultCaret) textArea.getCaret();
+		textAreaCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setEditable(false);
-		springLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, textField);
-		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.NORTH, textField);
-		springLayout.putConstraint(SpringLayout.EAST, textArea, 0, SpringLayout.EAST, textField);
-		add(textArea);
+		springLayout.putConstraint(SpringLayout.WEST, textAreaScrollPane, 0, SpringLayout.WEST, textField);
+		springLayout.putConstraint(SpringLayout.SOUTH, textAreaScrollPane, -10, SpringLayout.NORTH, textField);
+		springLayout.putConstraint(SpringLayout.EAST, textAreaScrollPane, 0, SpringLayout.EAST, textField);
+		add(textAreaScrollPane);
 
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.putClientProperty("tabbedPane", tabbedPane);
 		btnSalir.putClientProperty("sala", this);
-		springLayout.putConstraint(SpringLayout.NORTH, textArea, 10, SpringLayout.SOUTH, btnSalir);
+		springLayout.putConstraint(SpringLayout.NORTH, textAreaScrollPane, 10, SpringLayout.SOUTH, btnSalir);
 		btnSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JTabbedPane tabbedPane = (JTabbedPane) btnSalir.getClientProperty("tabbedPane");
 				JPanel sala = (JPanel) btnSalir.getClientProperty("sala");
 				tabbedPane.remove(sala);
+				cliente.bajarCounterSala();
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnSalir, 10, SpringLayout.NORTH, this);

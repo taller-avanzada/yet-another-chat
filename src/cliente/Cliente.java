@@ -70,4 +70,8 @@ public class Cliente {
 	public int getCantSalas() {
 		return cantSalas;
 	}
+
+	public void bajarCounterSala() {
+		cantSalas--;
+	}
 }
