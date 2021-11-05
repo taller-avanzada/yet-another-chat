@@ -18,7 +18,7 @@ public class MandadorDeSalas extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 				String salas = "";
 				for (String sala : listaSalas) {
 					salas += sala + ";";

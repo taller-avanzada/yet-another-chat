@@ -26,10 +26,16 @@ public class Lobby extends JPanel {
 
 		JButton btnNuevaSala = new JButton("Nueva Sala");
 		btnNuevaSala.putClientProperty("tabbedPane", tabbedPane);
-		// btnNuevaSala.putClientProperty("viewPort", this);
+		btnNuevaSala.putClientProperty("viewPort", this);
 		btnNuevaSala.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (cliente.getCantSalas() >= 3) {
+					JOptionPane.showMessageDialog(tabbedPane, "No puede estar en más de tres salas a la vez",
+							"Lobby Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
 				String nombreSala = JOptionPane.showInputDialog(btnNuevaSala.getParent(), "Nombre de la sala: ");
 				if (nombreSala != null && !nombreSala.isBlank()) {
 					JTabbedPane tabbedPane = (JTabbedPane) btnNuevaSala.getClientProperty("tabbedPane");
@@ -41,6 +47,7 @@ public class Lobby extends JPanel {
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnNuevaSala, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, btnNuevaSala, -10, SpringLayout.EAST, this);
+
 		add(btnNuevaSala);
 
 		JLabel lblSalasAbiertas = new JLabel("Salas Abiertas :");

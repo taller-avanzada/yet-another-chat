@@ -83,6 +83,5 @@ public class Sala extends JPanel {
 	public void removeNotify() {
 		super.removeNotify();
 		cliente.getRecibe().removeSala(getName());
-
 	}
 }
