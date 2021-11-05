@@ -65,6 +65,33 @@ public class Lobby extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, txaListaSalas, 0, SpringLayout.EAST, lblSalasAbiertas);
 		add(txaListaSalas);
 
+		JButton btnUnirseSala = new JButton("Unirse a sala");
+		btnUnirseSala.putClientProperty("tabbedPane", tabbedPane);
+		btnUnirseSala.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cliente.getCantSalas() >= 3) {
+					JOptionPane.showMessageDialog(tabbedPane, "No puede estar en más de tres salas a la vez",
+							"Lobby Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				String nombreSala = JOptionPane.showInputDialog(btnUnirseSala.getParent(), "Nombre de la sala: ");
+				if (nombreSala != null && !nombreSala.isBlank() && cliente.getRecibe().existeSala(nombreSala)) {
+					JTabbedPane tabbedPane = (JTabbedPane) btnUnirseSala.getClientProperty("tabbedPane");
+					tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
+					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+					cliente.conectarseASala(nombreSala);
+				} else {
+					JOptionPane.showMessageDialog(tabbedPane, "Esa sala no existe", "Lobby Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, btnUnirseSala, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, btnUnirseSala, -100, SpringLayout.EAST, this);
+		add(btnUnirseSala);
+
 		cliente.getRecibe().setLobbyTextArea(txaListaSalas); // temporal
 	}
 }

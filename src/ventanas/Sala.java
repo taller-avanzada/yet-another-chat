@@ -2,6 +2,8 @@ package ventanas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -81,6 +83,33 @@ public class Sala extends JPanel {
 				textField.setText("");
 			}
 		});
+
+		JButton btnDownloadLog = new JButton("Descargar log");
+		btnDownloadLog.putClientProperty("tabbedPane", tabbedPane);
+		btnDownloadLog.putClientProperty("sala", this);
+		springLayout.putConstraint(SpringLayout.NORTH, textArea, 10, SpringLayout.SOUTH, btnDownloadLog);
+		btnDownloadLog.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JTabbedPane tabbedPane = (JTabbedPane) btnSalir.getClientProperty("tabbedPane");
+				JPanel sala = (JPanel) btnDownloadLog.getClientProperty("sala");
+				String log = textArea.getText();
+				PrintWriter writer;
+				try {
+					writer = new PrintWriter("archivo.out");
+					writer.write(log);
+					writer.close();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				tabbedPane.remove(sala);
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, btnDownloadLog, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, btnDownloadLog, -100, SpringLayout.EAST, this);
+		add(btnDownloadLog);
 
 		cliente.getRecibe().addSala(name, textArea);
 	}

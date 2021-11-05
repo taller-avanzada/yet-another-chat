@@ -73,4 +73,8 @@ public class ClienteRecibe extends Thread {
 		this.lobbyTextArea = lobbyTextArea;
 	}
 
+	public boolean existeSala(String nombreSala) {
+		return listaSalas.contains(nombreSala);
+	}
+
 }
