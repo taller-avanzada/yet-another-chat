@@ -71,14 +71,22 @@ public class Cliente {
 		return cantSalas;
 	}
 
-	public void bajarCounterSala() {
-		cantSalas--;
-	}
 
 	public void conectarseASala(String nombreSala) {
 		try {
 			++cantSalas;
 			out.write(1);
+			out.writeUTF(nombreSala);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
+	public void disconnect(String nombreSala) {
+		try {
+			--cantSalas;
+			out.write(3);
 			out.writeUTF(nombreSala);
 		} catch (IOException e) {
 			e.printStackTrace();

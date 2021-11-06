@@ -4,12 +4,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MandadorDeSalas extends Thread {
 	ArrayList<Socket> socketsClientes;
-	ArrayList<String> listaSalas;
-
-	public MandadorDeSalas(ArrayList<Socket> socketsClientes, ArrayList<String> listaSalas) {
+	HashMap<String,Integer> listaSalas = new HashMap<>();
+	public MandadorDeSalas(ArrayList<Socket> socketsClientes, HashMap<String,Integer> listaSalas) {
 		this.socketsClientes = socketsClientes;
 		this.listaSalas = listaSalas;
 	}
@@ -20,8 +20,8 @@ public class MandadorDeSalas extends Thread {
 			try {
 				Thread.sleep(1000);
 				String salas = "";
-				for (String sala : listaSalas) {
-					salas += sala + ";";
+				for (String sala : listaSalas.keySet()) {
+					salas += sala + ":" + listaSalas.get(sala) + ";";
 				}
 				System.out.println(salas);
 				for (Socket socket : socketsClientes) {

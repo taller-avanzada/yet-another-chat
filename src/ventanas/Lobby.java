@@ -38,10 +38,13 @@ public class Lobby extends JPanel {
 
 				String nombreSala = JOptionPane.showInputDialog(btnNuevaSala.getParent(), "Nombre de la sala: ");
 				if (nombreSala != null && !nombreSala.isBlank()) {
-					JTabbedPane tabbedPane = (JTabbedPane) btnNuevaSala.getClientProperty("tabbedPane");
-					tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
-					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-					cliente.enviarNuevaSala(nombreSala);
+					if (!estoyUnido(nombreSala))
+					{
+						JTabbedPane tabbedPane = (JTabbedPane) btnNuevaSala.getClientProperty("tabbedPane");
+						tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
+						tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+						cliente.enviarNuevaSala(nombreSala);
+					}
 				}
 			}
 		});
@@ -92,20 +95,21 @@ public class Lobby extends JPanel {
 				}
 			}
 
-			private boolean estoyUnido(String nombreSala)
-			{
-				for(int i = 0; i < tabbedPane.getTabCount(); i++)
-				{
-					if (tabbedPane.getTitleAt(i).equals(nombreSala))
-						return true;
-				}
-				return false;
-			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnUnirseSala, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, btnUnirseSala, -100, SpringLayout.EAST, this);
 		add(btnUnirseSala);
 
 		cliente.getRecibe().setLobbyTextArea(txaListaSalas); // temporal
+	}
+	
+	private boolean estoyUnido(String nombreSala)
+	{
+		for(int i = 0; i < tabbedPane.getTabCount(); i++)
+		{
+			if (tabbedPane.getTitleAt(i).equals(nombreSala))
+				return true;
+		}
+		return false;
 	}
 }

@@ -57,7 +57,8 @@ public class Sala extends JPanel {
 				JTabbedPane tabbedPane = (JTabbedPane) btnSalir.getClientProperty("tabbedPane");
 				JPanel sala = (JPanel) btnSalir.getClientProperty("sala");
 				tabbedPane.remove(sala);
-				cliente.bajarCounterSala();
+				String salanombre = sala.getName();
+				cliente.disconnect(sala.getName());
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnSalir, 10, SpringLayout.NORTH, this);
@@ -103,8 +104,6 @@ public class Sala extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-				tabbedPane.remove(sala);
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnDownloadLog, 10, SpringLayout.NORTH, this);

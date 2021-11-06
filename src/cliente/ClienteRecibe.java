@@ -47,8 +47,10 @@ public class ClienteRecibe extends Thread {
 					listaSalas.clear();
 					lobbyTextArea.setText("");
 					for (String i : texto.split(";")) {
-						lobbyTextArea.append(i + System.lineSeparator());
-						listaSalas.add(i);
+						String sala = i.split(":")[0];
+						String users = i.split(":")[1];
+						lobbyTextArea.append(sala + " (" + users + " usuarios conectados)" + System.lineSeparator());
+						listaSalas.add(sala);
 					}
 				}
 
