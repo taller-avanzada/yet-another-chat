@@ -62,7 +62,7 @@ public class Lobby extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, txaListaSalas, 20, SpringLayout.SOUTH, lblSalasAbiertas);
 		springLayout.putConstraint(SpringLayout.WEST, txaListaSalas, 0, SpringLayout.WEST, lblSalasAbiertas);
 		springLayout.putConstraint(SpringLayout.SOUTH, txaListaSalas, -30, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, txaListaSalas, 0, SpringLayout.EAST, lblSalasAbiertas);
+		springLayout.putConstraint(SpringLayout.EAST, txaListaSalas, 0, SpringLayout.EAST, btnNuevaSala);
 		add(txaListaSalas);
 
 		JButton btnUnirseSala = new JButton("Unirse a sala");
@@ -77,25 +77,25 @@ public class Lobby extends JPanel {
 				}
 
 				String nombreSala = JOptionPane.showInputDialog(btnUnirseSala.getParent(), "Nombre de la sala: ");
-				if (nombreSala != null && !nombreSala.isBlank() && cliente.getRecibe().existeSala(nombreSala)) {
-					if (!estoyUnido(nombreSala))
-					{
+				if (nombreSala == null) {
+					return;
+				}
+				if (!nombreSala.isBlank() && cliente.getRecibe().existeSala(nombreSala)) {
+					if (!estoyUnido(nombreSala)) {
 						JTabbedPane tabbedPane = (JTabbedPane) btnUnirseSala.getClientProperty("tabbedPane");
 						tabbedPane.addTab(nombreSala, new Sala(nombreSala, tabbedPane, cliente));
 						tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 						cliente.conectarseASala(nombreSala);
 					}
-					
+
 				} else {
 					JOptionPane.showMessageDialog(tabbedPane, "Esa sala no existe", "Lobby Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
-			private boolean estoyUnido(String nombreSala)
-			{
-				for(int i = 0; i < tabbedPane.getTabCount(); i++)
-				{
+			private boolean estoyUnido(String nombreSala) {
+				for (int i = 0; i < tabbedPane.getTabCount(); i++) {
 					if (tabbedPane.getTitleAt(i).equals(nombreSala))
 						return true;
 				}

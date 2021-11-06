@@ -16,6 +16,7 @@ import javax.swing.SpringLayout;
 import javax.swing.text.DefaultCaret;
 
 import cliente.Cliente;
+import cliente.TiempoThread;
 
 public class Sala extends JPanel {
 	private JTextField textField;
@@ -65,6 +66,8 @@ public class Sala extends JPanel {
 		add(btnSalir);
 
 		JLabel lblNombre = new JLabel(name);
+		TiempoThread tthread = new TiempoThread(lblNombre);
+		tthread.start();
 		springLayout.putConstraint(SpringLayout.NORTH, lblNombre, 0, SpringLayout.NORTH, btnSalir);
 		springLayout.putConstraint(SpringLayout.WEST, lblNombre, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNombre, 0, SpringLayout.SOUTH, btnSalir);
