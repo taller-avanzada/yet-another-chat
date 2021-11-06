@@ -65,7 +65,7 @@ public class Lobby extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, txaListaSalas, 20, SpringLayout.SOUTH, lblSalasAbiertas);
 		springLayout.putConstraint(SpringLayout.WEST, txaListaSalas, 0, SpringLayout.WEST, lblSalasAbiertas);
 		springLayout.putConstraint(SpringLayout.SOUTH, txaListaSalas, -30, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, txaListaSalas, 0, SpringLayout.EAST, lblSalasAbiertas);
+		springLayout.putConstraint(SpringLayout.EAST, txaListaSalas, 0, SpringLayout.EAST, btnNuevaSala);
 		add(txaListaSalas);
 
 		JButton btnUnirseSala = new JButton("Unirse a sala");
